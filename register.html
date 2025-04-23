@@ -262,7 +262,8 @@
         input[type="text"],
         input[type="tel"],
         input[type="number"],
-        input[type="date"] {
+        input[type="date"],
+        input[type="time"] {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid var(--medium-gray);
@@ -1410,6 +1411,15 @@
                     <div class="preview-container">
                         <img id="slipPreview" class="image-preview" src="" alt="ตัวอย่างสลิป">
                     </div>
+                </div>
+                <div class="form-group" style="margin-top: 0.5rem;">
+                    <label for="transferDate" class="required"><i class="fas fa-calendar"></i> วันที่โอนเงิน</label>
+                    <input type="date" id="transferDate" name="transferDate" required>
+                    <div class="error-message" id="transferDate-error">กรุณาระบุวันที่โอนเงิน</div>
+
+                    <label style="margin-top: 1rem;" for="transferTime" class="required"><i class="fas fa-clock"></i> เวลาที่โอนเงิน</label>
+                    <input type="time" id="transferTime" name="transferTime" required>
+                    <div class="error-message" id="transferTime-error">กรุณาระบุเวลาที่โอนเงิน</div>
                 </div>
             </div>
 
