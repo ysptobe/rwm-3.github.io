@@ -1394,7 +1394,7 @@
                     <p>ชื่อบัญชี: YSP. RUN WITH ME 3nd</p>
                 </div>
 
-                <div class="payment-proof hidden" id="paymentProofSection">
+                <div class="payment-proof" id="paymentProofSection">
                     <label style="font-size: 18px; color: var(--primary);" for="paymentProof" class="required"><i
                             class="fas fa-file-upload"></i> แนบหลักฐานการชำระเงิน
                         (สลิปการโอนเงิน)</label>
@@ -2083,7 +2083,7 @@
             const guardianFields = ['guardianName', 'guardianRelation', 'guardianPhone'];
 
             if (guardianSection) {
-                if (age < 18) {
+                if (age < 15) {
                     guardianSection.style.display = 'block';
                     guardianFields.forEach(field => {
                         const element = document.getElementById(field);
@@ -2111,7 +2111,7 @@
                 { id: 'genVA', maxAge: 40 },
                 { id: 'genVB', maxAge: 50 },
                 { id: 'genVC', maxAge: 60 },
-                { id: 'genO', maxAge: 999 }  // สำหรับ 61 ปีขึ้นไป
+                { id: 'genO', maxAge: 100 }  // สำหรับ 61 ปีขึ้นไป
             ];
 
             // ยกเลิกการเลือกทั้งหมด
