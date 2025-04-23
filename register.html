@@ -1,0 +1,2363 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YSP RUN WITH ME ครั้งที่ 3 - ระบบรับสมัครนักวิ่ง</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* --- Font Definitions --- */
+        /* Keep the custom font definitions as they are already set up */
+        @font-face {
+            font-family: LINESeedSansTH;
+            src: url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Th.woff) format('woff'),
+                url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Th.woff2) format('woff2');
+            font-weight: 100;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: LINESeedSansTH;
+            src: url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Rg.woff) format('woff'),
+                url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Rg.woff2) format('woff2');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: LINESeedSansTH;
+            src: url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Bd.woff) format('woff'),
+                url(https://seed.line.me/src/fonts/LINESeedSansTH_W_Bd.woff2) format('woff2');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: LINESeedSansTH;
+            src: url(https://seed.line.me/src/fonts/LINESeedSansTH_W_He.woff) format('woff'),
+                url(https://seed.line.me/src/fonts/LINESeedSansTH_W_He.woff2) format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: LINESeedSansTH;
+            src: url(https://seed.line.me/src/fonts/LINESeedSansTH_W_XBd.woff) format('woff'),
+                url(https://seed.line.me/src/fonts/LINESeedSansTH_W_XBd.woff2) format('woff2');
+            font-weight: 800;
+            font-style: normal;
+        }
+
+
+        /* ========== พื้นฐาน & ตัวแปร ========== */
+        :root {
+            --primary: #ce1a07;
+            --primary-light: #ff4a3c;
+            --primary-dark: #8f0000;
+            --accent: #FF5722;
+            --accent-light: #FFAB91;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --error: #F44336;
+            --text-dark: #263238;
+            --text-light: #78909C;
+            --white: #FFFFFF;
+            --light-gray: #ECEFF1;
+            --medium-gray: #B0BEC5;
+            --border-radius: 4px;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ========== ตั้งค่าพื้นฐาน ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'LINE Seed Sans TH', sans-serif;
+            font-weight: 300;
+            color: var(--text-dark);
+            background-color: #F5F7FA;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ========== ส่วนหัว ========== */
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--white);
+            padding: 30px 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        header h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.2s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .event-details {
+            background-color: var(--white);
+            color: var(--white);
+            padding: 15px;
+            text-align: center;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: slideInFromRight 0.8s ease-out 0.4s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .event-details h3 {
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .info-box {
+            background-color: var(--white);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-out 0.8s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .info-box p {
+            font-weight: 500;
+        }
+
+        li {
+            font-weight: 500;
+        }
+
+        /* Animation keyframes */
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                transform: translateX(50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* ========== ฟอร์ม ========== */
+        form {
+            background-color: var(--white);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-weight: 500;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-weight: 700;
+            margin: 10px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        h3 {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 25px;
+            margin: 0 0 15px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        .col {
+            flex: 1;
+            padding: 0 10px;
+            min-width: 250px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        label.required:after {
+            content: " *";
+            color: var(--error);
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            font-family: 'LINE Seed Sans TH', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            font-family: 'LINE Seed Sans TH', sans-serif;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            appearance: none;
+            background: #fff url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 512'><path d='M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z'/></svg>") no-repeat right 15px center/12px;
+        }
+
+        input:disabled {
+            background-color: var(--light-gray);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(143, 0, 0, 0.25);
+        }
+
+        /* ========== Radio และ Checkbox ========== */
+        .radio-group,
+        .shirt-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .radio-item,
+        .shirt-size {
+            margin-right: 20px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-item input[type="radio"],
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 8px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        .radio-item label,
+        .checkbox-item label {
+            cursor: pointer;
+            margin-bottom: 0;
+            font-weight: 500;
+            color: black;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+        }
+
+        .checkbox-item input {
+            margin-top: 5px;
+        }
+
+        /* ========== ข้อความแสดงความผิดพลาด ========== */
+        .error-message {
+            color: var(--error);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* ========== ส่วนแสดงข้อมูลการจ่ายเงิน ========== */
+        .package-info {
+            background-color: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+        }
+
+        .package-info p {
+            margin: 5px 0;
+        }
+
+        .payment-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            border-left: 4px solid var(--accent);
+        }
+
+        .payment-proof {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px dashed var(--primary);
+            border-radius: var(--border-radius);
+        }
+
+        .payment-proof p {
+            color: var(--text-light);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ========== ภาพตัวอย่าง ========== */
+        .preview-container {
+            margin-top: 15px;
+            max-width: 300px;
+        }
+
+        .image-preview {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            display: none;
+        }
+
+        /* ========== Button Styles ========== */
+        button {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--white);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px rgba(206, 26, 7, 0.1);
+            font-family: 'LINE Seed Sans TH', sans-serif;
+            min-width: 180px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(206, 26, 7, 0.2);
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 4px rgba(206, 26, 7, 0.1);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                120deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button i {
+            margin-right: 8px;
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+
+        button:hover i {
+            transform: translateX(-3px);
+        }
+
+        /* Disabled state */
+        button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            opacity: 0.7;
+            box-shadow: none;
+        }
+
+        /* Loading state */
+        button.loading {
+            background: #e0e0e0;
+            cursor: wait;
+        }
+
+        button.loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: button-loading-spinner 1s linear infinite;
+            position: absolute;
+            right: 10px;
+        }
+
+        @keyframes button-loading-spinner {
+            from {
+                transform: rotate(0turn);
+            }
+            to {
+                transform: rotate(1turn);
+            }
+        }
+
+        /* ========== Trophy Info ========== */
+        .trophy-info {
+            background-color: #FFF8E1;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 30px 0;
+            border-radius: var(--border-radius);
+        }
+
+        /* ========== Guardian Section ========== */
+        .guardian {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            border: 2px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(206, 26, 7, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .guardian:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(206, 26, 7, 0.15);
+        }
+
+        .guardian h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .guardian label {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .guardian input {
+            border-color: #e0e0e0;
+        }
+
+        .guardian p {
+            color: var(--text-dark);
+            padding: 10px;
+            border-radius: var(--border-radius);
+            background-color: #fff3f1;
+            border-left: 4px solid var(--primary);
+            margin-top: 15px;
+        }
+
+        /* ========== Media Queries for Responsive Design ========== */
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .col {
+                padding: 0;
+                margin-bottom: 10px;
+            }
+
+            header h1 {
+                font-size: 2rem;
+            }
+
+            form {
+                padding: 20px 15px;
+            }
+
+            .radio-group,
+            .shirt-sizes {
+                flex-direction: column;
+            }
+        }
+
+        /* ========== Animation Effects ========== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        form {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* ========== Package Fee Display ========== */
+        .package-fee {
+            background: var(--light-gray);
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            margin: 15px 0;
+        }
+
+        .package-fee #selectedPackage {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .package-fee input[type="hidden"] {
+            display: none;
+        }
+
+        .package-fee .error-message {
+            color: var(--error);
+            margin-top: 5px;
+            font-size: 0.9em;
+        }
+    </style>
+
+    <script>
+        /* ========== JavaScript Functions ========== */
+        function calculateAge() {
+            const birthdateInput = document.getElementById('birthdate');
+            const ageInput = document.getElementById('age');
+
+            if (birthdateInput.value) {
+                const birthdate = new Date(birthdateInput.value);
+                const today = new Date();
+                let age = today.getFullYear() - birthdate.getFullYear();
+
+                // Adjust age if birthday hasn't occurred yet this year
+                const birthdateThisYear = new Date(today.getFullYear(), birthdate.getMonth(), birthdate.getDate());
+                if (today < birthdateThisYear) {
+                    age--;
+                }
+
+                ageInput.value = age;
+
+                // Show guardian section for minors
+                const guardianSection = document.getElementById('guardianSection');
+                if (age < 18) {
+                    guardianSection.style.display = 'block';
+                    document.getElementById('guardianName').required = true;
+                    document.getElementById('guardianRelation').required = true;
+                    document.getElementById('guardianPhone').required = true;
+                } else {
+                    guardianSection.style.display = 'none';
+                    document.getElementById('guardianName').required = false;
+                    document.getElementById('guardianRelation').required = false;
+                    document.getElementById('guardianPhone').required = false;
+                }
+            }
+        }
+
+        function togglePaymentProof() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            const proofSection = document.getElementById('paymentProofSection');
+
+            if (paymentMethod && paymentMethod.value === 'โอนเงิน') {
+                proofSection.classList.remove('hidden');
+                document.getElementById('paymentProof').required = true;
+            } else {
+                proofSection.classList.add('hidden');
+                document.getElementById('paymentProof').required = false;
+            }
+        }
+
+        function updatePackageOptions() {
+            const packet = document.querySelector('input[name="packet"]:checked');
+            const category = document.querySelector('input[name="category"]:checked');
+            const packageFeeInput = document.getElementById('packageFee');
+            const selectedPackageSpan = document.getElementById('selectedPackage');
+
+            if (!packet || !category) return;
+
+            let packageName = '';
+            let fee = 0;
+
+            if (packet.value === 'ทั่วไป') {
+                if (category.value === 'FUNRUN (5km.)') {
+                    packageName = 'Package A - ทั่วไป 5 กม. + เสื้อและเหรียญ';
+                    fee = 350;
+                } else {
+                    packageName = 'Package B - ทั่วไป 10 กม. + เสื้อและเหรียญ';
+                    fee = 500;
+                }
+            } else if (packet.value === 'VIP') {
+                packageName = 'Package C - VIP + เสื้อคอปกและเหรียญ';
+                fee = 1000;
+            } else if (packet.value === 'Student') {
+                packageName = 'Package Student - ทั่วไป 5 กม.';
+                fee = 200;
+            }
+
+            if (packageName) {
+                selectedPackageSpan.textContent = `${packageName} - ${fee} บาท`;
+                packageFeeInput.value = fee;
+            }
+        }
+
+        function previewPaymentSlip(event) {
+            const preview = document.getElementById('slipPreview');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+
+            // ตรวจสอบว่าฟิลด์ที่จำเป็นต้องกรอกไม่ว่าง
+            const requiredFields = document.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                const errorElement = document.getElementById(`${field.id}-error`);
+                if (!field.value && field.type !== 'radio' && field.type !== 'checkbox') {
+                    if (errorElement) errorElement.style.display = 'block';
+                    isValid = false;
+                } else if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            // ตรวจสอบฟิลด์ radio group
+            const radioGroups = ['gender', 'shirtSize', 'packet', 'category', 'generation', 'paymentMethod'];
+            radioGroups.forEach(groupName => {
+                const checkedRadio = document.querySelector(`input[name="${groupName}"]:checked`);
+                const errorElement = document.getElementById(`${groupName}-error`);
+                if (!checkedRadio && errorElement) {
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else if (errorElement) {
+                    errorElement.style.display = 'none';
+                }
+            });
+
+            // ตรวจสอบการยอมรับข้อตกลง
+            const agreement = document.getElementById('agreement');
+            const agreementError = document.getElementById('agreement-error');
+            if (agreement && agreementError) {
+                if (!agreement.checked) {
+                    agreementError.style.display = 'block';
+                    agreementError.style.transition = 'all 0.3s ease-in-out';
+                    agreementError.style.opacity = '1';
+                    isValid = false;
+                    agreement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    agreementError.style.opacity = '0';
+                    setTimeout(() => {
+                        agreementError.style.display = 'none';
+                    }, 300);
+                }
+            }
+
+            // ตรวจสอบข้อมูลผู้ปกครอง (ถ้าอายุต่ำกว่า 18)
+            const age = document.getElementById('age').value;
+            if (age && parseInt(age) < 18) {
+                const guardianFields = ['guardianName', 'guardianRelation', 'guardianPhone'];
+                guardianFields.forEach(fieldId => {
+                    const field = document.getElementById(fieldId);
+                    const errorElement = document.getElementById(`${fieldId}-error`);
+                    if (!field.value) {
+                        errorElement.style.display = 'block';
+                        isValid = false;
+                    } else {
+                        errorElement.style.display = 'none';
+                    }
+                });
+            }
+
+            // ตรวจสอบหลักฐานการชำระเงิน (ถ้าเลือกโอนเงิน)
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            if (paymentMethod && paymentMethod.value === 'โอนเงิน') {
+                const proofFile = document.getElementById('paymentProof');
+                const errorElement = document.getElementById('paymentProof-error');
+                if (!proofFile.files || proofFile.files.length === 0) {
+                    errorElement.style.display = 'block';
+                    isValid = false;
+                } else {
+                    errorElement.style.display = 'none';
+                }
+            }
+
+            // ถ้าตรวจสอบผ่านทั้งหมดให้ส่งฟอร์ม
+            if (isValid) {
+                alert('ลงทะเบียนสำเร็จ! ขอบคุณที่สมัครเข้าร่วมกิจกรรม YSP RUN WITH ME ครั้งที่ 3');
+            } else {
+                // เลื่อนไปยังข้อผิดพลาดแรก
+                const firstError = document.querySelector('.error-message[style="display: block;"]');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            return isValid;
+        }
+
+        function submitForm() {
+            // Collect form data
+            const formData = {
+                // Add your form fields here, for example:
+                fname: document.getElementById('fname').value,
+                // Add other form fields as needed
+            };
+
+            // Call the Google Apps Script function
+            google.script.run
+                .withSuccessHandler(onSuccess)
+                .withFailureHandler(onFailure)
+                .saveData(formData);
+        }
+
+        function onSuccess(response) {
+            // Handle successful submission
+            alert('ลงทะเบียนสำเร็จ: ' + response);
+            // Optionally reset the form or redirect
+        }
+
+        function onFailure(error) {
+            // Handle errors
+            alert('เกิดข้อผิดพลาด: ' + error.message);
+        }
+        // เริ่มต้นขั้นตอนเมื่อโหลดหน้า
+        window.onload = function () {
+            // ซ่อนส่วนผู้ปกครองเริ่มต้น
+            document.getElementById('guardianSection').style.display = 'none';
+
+            // ตั้งค่าวันที่ปัจจุบัน
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('birthdate').setAttribute('max', today);
+
+            // เพิ่ม event listeners
+            document.getElementById('birthdate').addEventListener('change', calculateAge);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>YSP RUN WITH ME ครั้งที่ 3</h1>
+            <p>โครงการวิ่งมินิมาราธอน ชิงถ้วยพระราชทานทูนกระหม่อมหญิงอุบลรัตน์ราชกัญญา สิริวัฒนาพรรณวดี</p>
+        </header>
+
+        <div class="event-details">
+            <h3>วันเสาร์ที่ 7 มิถุนายน 2568</h3>
+            <h3>ณ โรงเรียนยโสธรพิทยาคม จังหวัดยโสธร</h3>
+        </div>
+
+        <div class="info-box">
+            <p>กรุณากรอกข้อมูลให้ครบถ้วนและตรวจสอบความถูกต้องก่อนส่งใบสมัคร</p>
+            <p style="color: #ce1a07; font-weight: 700;">ข้อมูลที่มีเครื่องหมาย * เป็นข้อมูลที่จำเป็นต้องกรอก</p>
+        </div>
+
+        <form id="runnerForm" onsubmit="return validateForm()">
+            <h2>1. รายละเอียดผู้สมัคร</h2>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="title" class="required"><i class="fas fa-user-tag"></i> คำนำหน้า</label>
+                        <select id="title" name="title" required>
+                            <option value="">-- เลือก --</option>
+                            <option value="เด็กชาย">เด็กชาย</option>
+                            <option value="เด็กหญิง">เด็กหญิง</option>
+                            <option value="นาย">นาย</option>
+                            <option value="นางสาว">นางสาว</option>
+                            <option value="นาง">นาง</option>
+                        </select>
+                        <div class="error-message" id="title-error">กรุณาเลือกคำนำหน้า</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="firstName" class="required"><i class="fas fa-user"></i> ชื่อ</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                        <div class="error-message" id="firstName-error">กรุณากรอกชื่อ</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="lastName" class="required"><i class="fas fa-user"></i> นามสกุล</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                        <div class="error-message" id="lastName-error">กรุณากรอกนามสกุล</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="birthdate" class="required"><i class="fas fa-calendar-alt"></i>
+                            วัน/เดือน/ปีเกิด</label>
+                        <input type="date" id="birthdate" name="birthdate" required onchange="calculateAge()">
+                        <div class="error-message" id="birthdate-error">กรุณาเลือกวันเกิด</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="age" class="required"><i class="fas fa-birthday-cake"></i> อายุ (ปี)</label>
+                        <input type="number" id="age" name="age" disabled required>
+                        <div class="error-message" id="age-error">กรุณากรอกอายุ</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="nationality" class="required"><i class="fas fa-flag"></i> สัญชาติ</label>
+                        <input type="text" id="nationality" name="nationality" value="ไทย" required>
+                        <div class="error-message" id="nationality-error">กรุณากรอกสัญชาติ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="gender" class="required"><i class="fas fa-venus-mars"></i> เพศ</label>
+                        <select id="gender" name="gender" required>
+                            <option value="">-- เลือก --</option>
+                            <option value="ชาย">ชาย</option>
+                            <option value="หญิง">หญิง</option>
+                        </select>
+                        <div class="error-message" id="gender-error">กรุณาเลือกเพศ</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="idCard" class="required"><i class="fas fa-id-card"></i>
+                            เลขบัตรประจำตัวประชาชน</label>
+                        <input type="text" id="idCard" name="idCard" maxlength="13" required pattern="[0-9]{13}"
+                            title="กรุณากรอกเลขบัตร 13 หลัก">
+                        <div class="error-message" id="idCard-error">กรุณากรอกเลขบัตรประชาชน 13 หลัก</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="disease"><i class="fas fa-notes-medical"></i> โรคประจำตัว (ถ้ามี)</label>
+                <input type="text" id="disease" name="disease">
+            </div>
+
+            <h3>ที่อยู่ปัจจุบัน</h3>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="address" class="required"><i class="fas fa-map-marker-alt"></i> บ้านเลขที่</label>
+                        <input type="text" id="address" name="address" required>
+                        <div class="error-message" id="address-error">กรุณากรอกบ้านเลขที่</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="moo"><i class="fas fa-map-signs"></i> หมู่</label>
+                        <input type="text" id="moo" name="moo">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="soi"><i class="fas fa-road"></i> ซอย/ถนน</label>
+                        <input type="text" id="soi" name="soi">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="subdistrict" class="required"><i class="fas fa-map"></i> ตำบล/แขวง</label>
+                        <input type="text" id="subdistrict" name="subdistrict" required>
+                        <div class="error-message" id="subdistrict-error">กรุณากรอกตำบล/แขวง</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="district" class="required"><i class="fas fa-map-marked-alt"></i> อำเภอ</label>
+                        <input type="text" id="district" name="district" required>
+                        <div class="error-message" id="district-error">กรุณากรอกอำเภอ</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="province" class="required"><i class="fas fa-city"></i> จังหวัด</label>
+                        <input type="text" id="province" name="province" required>
+                        <div class="error-message" id="province-error">กรุณากรอกจังหวัด</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="zipcode" class="required"><i class="fas fa-mail-bulk"></i> รหัสไปรษณีย์</label>
+                        <input type="text" id="zipcode" name="zipcode" pattern="[0-9]{5}" maxlength="5" required>
+                        <div class="error-message" id="zipcode-error">กรุณากรอกรหัสไปรษณีย์ 5 หลัก</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="phone" class="required"><i class="fas fa-phone"></i> เบอร์โทรศัพท์
+                            (ที่สามารถติดต่อได้)</label>
+                        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" maxlength="10" required>
+                        <div class="error-message" id="phone-error">กรุณากรอกเบอร์โทรศัพท์ 10 หลัก</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="organization"><i class="fas fa-building"></i> หน่วยงาน / สังกัด</label>
+                        <input type="text" id="organization" name="organization">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="emergencyContact" class="required"><i class="fas fa-user-shield"></i>
+                            บุคคลที่สามารถติดต่อได้ (กรณีฉุกเฉิน)</label>
+                        <input type="text" id="emergencyContact" name="emergencyContact" required>
+                        <div class="error-message" id="emergencyContact-error">
+                            กรุณากรอกชื่อบุคคลที่สามารถติดต่อได้กรณีฉุกเฉิน</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="emergencyPhone" class="required"><i class="fas fa-phone-square-alt"></i> เบอร์ติดต่อ
+                            (กรณีฉุกเฉิน)</label>
+                        <input type="tel" id="emergencyPhone" name="emergencyPhone" pattern="[0-9]{10}" maxlength="10"
+                            required>
+                        <div class="error-message" id="emergencyPhone-error">กรุณากรอกเบอร์โทรศัพท์ติดต่อฉุกเฉิน 10 หลัก
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2>2. ขนาดเสื้อที่ต้องการ</h2>
+            <div class="form-group">
+                <label class="textField" for="shirtSize" class="required">โปรดระบุขนาดเสื้อ</label>
+                <select id="shirtSize" name="shirtSize" required>
+                    <option value="">-- เลือกขนาดเสื้อ --</option>
+                    <option value="2XS (32 นิ้ว)">2XS (32 นิ้ว)</option>
+                    <option value="XS (34 นิ้ว)">XS (34 นิ้ว)</option>
+                    <option value="S (36 นิ้ว)">S (36 นิ้ว)</option>
+                    <option value="M (38 นิ้ว)">M (38 นิ้ว)</option>
+                    <option value="L (40 นิ้ว)">L (40 นิ้ว)</option>
+                    <option value="XL (42 นิ้ว)">XL (42 นิ้ว)</option>
+                    <option value="2XL (44 นิ้ว)">2XL (44 นิ้ว)</option>
+                    <option value="3XL (46 นิ้ว)">3XL (46 นิ้ว)</option>
+                    <option value="4XL (48 นิ้ว)">4XL (48 นิ้ว)</option>
+                </select>
+                <div class="error-message" id="shirtSize-error">กรุณาเลือกขนาดเสื้อ</div>
+            </div>
+
+            <h2>3. ประเภทที่สมัคร</h2>
+            <div class="form-group">
+                <label class="required"><i class="fas fa-ticket-alt"></i> PACKET</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="packetRegular" name="packet" value="ทั่วไป" required
+                            onclick="updatePackageOptions()">
+                        <label class="radio-button" for="packetRegular">ทั่วไป</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="packetVIP" name="packet" value="VIP" onclick="updatePackageOptions()">
+                        <label class="radio-button" for="packetVIP">VIP</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="packetStudent" name="packet" value="Student"
+                            onclick="handleStudentPacket()">
+                        <label class="radio-button" for="packetStudent">นักเรียน</label>
+                    </div>
+                </div>
+                <div class="error-message" id="packet-error">กรุณาเลือกประเภท PACKET</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required"><i class="fas fa-running"></i> ประเภท (Category)</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="typeFunRun" name="category" value="FUNRUN (5km.)" required
+                            onclick="updatePackageOptions()">
+                        <label class="radio-button" for="typeFunRun">FUNRUN (5km.)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="typeMiniMarathon" name="category" value="MINI MARATHON (10km.)"
+                            onclick="updatePackageOptions()">
+                        <label class="radio-button" for="typeMiniMarathon">MINI MARATHON (10km.)</label>
+                    </div>
+                </div>
+                <div class="error-message" id="category-error">กรุณาเลือกประเภทการวิ่ง</div>
+            </div>
+
+            <div class="form-group">
+                <label class="required"><i class="fas fa-users"></i> รุ่นอายุ (Generational)</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="genC" name="generation" value="C (ไม่เกิน 20 ปี)" required>
+                        <label class="radio-button" for="genC">C (รุ่นอายุไม่เกิน 20 ปี)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="genJ" name="generation" value="J (21-30 ปี)">
+                        <label class="radio-button" for="genJ">J (21-30 ปี)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="genVA" name="generation" value="VA (31-40 ปี)">
+                        <label class="radio-button" for="genVA">VA (31-40 ปี)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="genVB" name="generation" value="VB (41-50 ปี)">
+                        <label class="radio-button" for="genVB">VB (41-50 ปี)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="genVC" name="generation" value="VC (51-60 ปี)">
+                        <label class="radio-button" for="genVC">VC (51-60 ปี)</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="genO" name="generation" value="O (61 ปีขึ้นไป)">
+                        <label class="radio-button" for="genO">O (61 ปีขึ้นไป)</label>
+                    </div>
+                </div>
+                <div class="error-message" id="generation-error">กรุณาเลือกรุ่นอายุ</div>
+            </div>
+
+            <style>
+                .radio-item {
+                    margin: 10px 0;
+                    transform: translateY(0);
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .radio-item:hover {
+                    transform: translateY(-2px);
+                }
+
+                .radio-item input[type="radio"] {
+                    display: none;
+                }
+
+                .radio-label {
+                    display: block;
+                    padding: 15px 20px;
+                    background: #f5f5f5;
+                    border: 2px solid #ddd;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+                }
+
+                .radio-label:hover {
+                    background: #ebebeb;
+                    border-color: #ce1a07;
+                    box-shadow: 0 4px 12px rgba(206, 26, 7, 0.15);
+                    transform: translateY(-3px);
+                }
+
+                .radio-group {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 20px;
+                    row-gap: 0px;
+                    perspective: 1000px;
+                }
+
+                .radio-item {
+                    position: relative;
+                    transform-style: preserve-3d;
+                    transition: transform 0.4s ease;
+                }
+
+                .radio-item input[type="radio"] {
+                    display: none;
+                }
+
+                .radio-button {
+                    display: inline-block;
+                    padding: 12px 24px;
+                    background-color: #f8f9fa;
+                    border: 2px solid #dee2e6;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                    font-weight: 500;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                }
+
+                /* Disabled state styles */
+                .radio-item input[type="radio"]:disabled+.radio-button {
+                    background-color: #e9ecef;
+                    border-color: #ced4da;
+                    color: #6c757d;
+                    cursor: not-allowed;
+                    opacity: 0.65;
+                    box-shadow: none;
+                    pointer-events: none;
+                }
+
+                .radio-item input[type="radio"]:disabled:hover+.radio-button {
+                    transform: none;
+                    box-shadow: none;
+                }
+
+                .radio-item input[type="radio"]:checked+.radio-button {
+                    background-color: var(--primary);
+                    color: white;
+                    font-weight: 700;
+                    border-color: var(--primary);
+                    transform: scale(1.05) translateY(-2px);
+                    box-shadow: 0 6px 16px rgba(206, 26, 7, 0.25);
+                    animation: select-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                }
+
+                .radio-button:hover {
+                    background-color: #fff;
+                    transform: translateY(-3px) scale(1.02);
+                    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+                }
+
+                @keyframes select-pulse {
+                    0% {
+                        transform: scale(1);
+                        box-shadow: 0 4px 12px rgba(206, 26, 7, 0);
+                    }
+
+                    50% {
+                        transform: scale(1.08);
+                        box-shadow: 0 6px 16px rgba(206, 26, 7, 0.3);
+                    }
+
+                    100% {
+                        transform: scale(1.05);
+                        box-shadow: 0 6px 16px rgba(206, 26, 7, 0.25);
+                    }
+                }
+
+                .radio-item input[type="radio"]:checked+.radio-button {
+                    animation: select-pulse 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+
+                /* Smooth transition for all interactive states */
+                .radio-item,
+                .radio-button,
+                .radio-label {
+                    will-change: transform, box-shadow;
+                }
+            </style>
+
+            <script>
+                function handleStudentPacket() {
+                    const studentPacket = document.getElementById('packetStudent');
+
+                    if (studentPacket.checked) {
+                        // เรียก updatePackageOptions ก่อน
+                        updatePackageOptions();
+
+                        // เลือกรุ่น C อัตโนมัติ 
+                        document.getElementById('genC').checked = true;
+
+                        // ปิดการใช้งานรุ่นอื่นๆ
+                        const generations = ['genJ', 'genVA', 'genVB', 'genVC', 'genO'];
+                        generations.forEach(gen => {
+                            document.getElementById(gen).disabled = true;
+                        });
+
+                        // เลือก FUNRUN อัตโนมัติ
+                        document.getElementById('typeFunRun').checked = true;
+                        document.getElementById('typeMiniMarathon').disabled = true;
+                    }
+                }
+
+                // เพิ่ม event listener สำหรับ packet อื่นๆ เพื่อเปิดการใช้งานรุ่นอื่นๆ กลับ
+                document.getElementById('packetRegular').addEventListener('change', enableAllOptions);
+                document.getElementById('packetVIP').addEventListener('change', enableAllOptions);
+
+                function enableAllOptions() {
+                    const generations = ['genJ', 'genVA', 'genVB', 'genVC', 'genO'];
+                    generations.forEach(gen => {
+                        document.getElementById(gen).disabled = false;
+                    });
+                    document.getElementById('typeMiniMarathon').disabled = false;
+                }
+            </script>
+
+            <h2>4. การชำระค่าสมัคร</h2>
+            <div class="package-info"
+                style="margin: 20px 0; padding: 15px; background-color: #f5f5f5; border-radius: 8px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #ddd;"><i
+                                class="fas fa-box"></i> ประเภท</th>
+                        <th style="padding: 8px; text-align: right; border-bottom: 2px solid #ddd;"><i
+                                class="fas fa-coins"></i> ค่าสมัคร</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #ddd;"><i
+                                class="fas fa-info-circle"></i> รายละเอียด</th>
+                    </tr>
+                    <tr style="font-weight: 500;">
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Package A - ทั่วไป 5 กม.</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">350 บาท</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">เสื้อและเหรียญ</td>
+                    </tr>
+                    <tr style="font-weight: 500;">
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Package B - ทั่วไป 10 กม.</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">500 บาท</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">เสื้อและเหรียญ</td>
+                    </tr>
+                    <tr style="font-weight: 500;">
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">Package C - VIP</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right;">1,000 บาท</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #ddd;">เสื้อคอปกและเหรียญ</td>
+                    </tr>
+                    <tr style="font-weight: 500;">
+                        <td style="padding: 8px;">Package Student</td>
+                        <td style="padding: 8px; text-align: right;">200 บาท</td>
+                        <td style="padding: 8px;">ทั่วไป 5 กม.</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="form-group">
+                <label class="required"><i class="fas fa-receipt"></i> ค่าสมัคร</label>
+                <div class="package-fee" style="text-align: center;">
+                    <p><i class="fas fa-check-circle"></i> แพ็คเกจที่เลือก<br>
+                        <span style="font-size: 24px;" id="selectedPackage">(กรุณาเลือกแพ็คเกจ)</span>
+                    </p>
+                    <input type="hidden" id="packageFee" name="packageFee">
+                </div>
+                <div class="error-message" id="packageFee-error">กรุณาเลือกแพ็คเกจ</div>
+
+                <style>
+                    .package-fee {
+                        background: #f8f9fa;
+                        padding: 15px;
+                        border-radius: 8px;
+                        margin: 10px 0;
+                        border-left: 4px solid var(--primary);
+                        transition: all 0.3s ease;
+                    }
+
+                    .package-fee.active {
+                        background: #fff3e0;
+                        border-left-color: var(--accent);
+                    }
+                </style>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const packetInputs = document.querySelectorAll('input[name="packet"]');
+                        const categoryInputs = document.querySelectorAll('input[name="category"]');
+                        const packageFeeDiv = document.querySelector('.package-fee');
+
+                        function updateDisplay() {
+                            const selectedPacket = document.querySelector('input[name="packet"]:checked');
+                            const selectedCategory = document.querySelector('input[name="category"]:checked');
+
+                            if (selectedPacket && selectedCategory) {
+                                packageFeeDiv.classList.add('active');
+                            } else {
+                                packageFeeDiv.classList.remove('active');
+                            }
+                        }
+
+                        packetInputs.forEach(input => {
+                            input.addEventListener('change', function () {
+                                updatePackageOptions();
+                                updateDisplay();
+                            });
+                        });
+
+                        categoryInputs.forEach(input => {
+                            input.addEventListener('change', function () {
+                                updatePackageOptions();
+                                updateDisplay();
+                            });
+                        });
+                    });
+                </script>
+            </div>
+
+            <div class="form-group">
+                <label class="required">วิธีการชำระเงิน</label>
+                <div class="radio-item">
+                    <input type="radio" id="paymentTransfer" name="paymentMethod" value="โอนเงิน"
+                        onclick="togglePaymentProof()">
+                    <label for="paymentTransfer"><i class="fas fa-university"></i> โอนเงินผ่านบัญชีธนาคาร</label>
+                </div>
+                <div class="error-message" id="paymentMethod-error">กรุณาเลือกวิธีการชำระเงิน</div>
+
+                <div class="payment-info" style="text-align: center;">
+                    <p>โอนเงินผ่านบัญชีธนาคารกรุงไทย สาขาเทสโก้โลตัสยโสธร</p>
+                    <p style="font-size: 20px; color: var(--primary); font-weight: 700;">เลขที่บัญชี: 865-0-69605-8</p>
+                    <p>ชื่อบัญชี: YSP. RUN WITH ME 3nd</p>
+                </div>
+
+                <div class="payment-proof hidden" id="paymentProofSection">
+                    <label style="font-size: 18px; color: var(--primary);" for="paymentProof" class="required"><i
+                            class="fas fa-file-upload"></i> แนบหลักฐานการชำระเงิน
+                        (สลิปการโอนเงิน)</label>
+                    <input style="font-family: LINE Seed Sans TH;" type="file" id="paymentProof" name="paymentProof"
+                        accept="image/*" onchange="previewPaymentSlip(event)">
+                    <div class="error-message" id="paymentProof-error">กรุณาแนบหลักฐานการชำระเงิน</div>
+                    <p><small><i class="fas fa-info-circle"></i>
+                            ทางผู้จัดขอสงวนสิทธิ์ในการบันทึกข้อมูลหากไม่มีหลักฐานการชำระค่าธรรมเนียมการสมัคร</small>
+                    </p>
+                    <p><small><i class="fas fa-info-circle"></i> ขนาดไฟล์ไม่เกิน 5MB และรองรับไฟล์ประเภท JPG, PNG,
+                            GIF</small></p>
+
+                    <div class="preview-container">
+                        <img id="slipPreview" class="image-preview" src="" alt="ตัวอย่างสลิป">
+                    </div>
+                </div>
+            </div>
+
+            <div class="guardian" id="guardianSection">
+                <h3>ส่วนยืนยันการสมัครสำหรับผู้ปกครอง (สำหรับเยาวชนอายุต่ำกว่า 15 ปี)</h3>
+                <div class="form-group">
+                    <label for="guardianName" class="required"><i class="fas fa-user"></i> ชื่อ-นามสกุล
+                        ผู้ปกครอง</label>
+                    <input type="text" id="guardianName" name="guardianName">
+                    <div class="error-message" id="guardianName-error">กรุณากรอกชื่อ-นามสกุลผู้ปกครอง</div>
+                </div>
+                <div class="form-group">
+                    <label for="guardianRelation" class="required"><i class="fas fa-heart"></i> ความสัมพันธ์</label>
+                    <input type="text" id="guardianRelation" name="guardianRelation">
+                    <div class="error-message" id="guardianRelation-error">กรุณาระบุความสัมพันธ์</div>
+                </div>
+                <div class="form-group">
+                    <label for="guardianPhone" class="required"><i class="fas fa-phone"></i>
+                        เบอร์โทรศัพท์ผู้ปกครอง</label>
+                    <input type="tel" id="guardianPhone" name="guardianPhone" pattern="[0-9]{10}" maxlength="10">
+                    <div class="error-message" id="guardianPhone-error">กรุณากรอกเบอร์โทรศัพท์ผู้ปกครอง 10 หลัก</div>
+                </div>
+                <div class="form-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="guardianAgreement" name="guardianAgreement" required>
+                        <span class="checkmark"></span>
+                        <span class="agreement-text">
+                            ข้าพเจ้ายินยอมให้ผู้สมัครเข้าร่วมกิจกรรมวิ่ง YSP RUN WITH ME ครั้งที่ 3
+                            และรับทราบกฎระเบียบการแข่งขันเป็นที่เรียบร้อยแล้ว
+                        </span>
+                    </label>
+                    <div class="error-message-agreement" id="guardianAgreement-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        กรุณายืนยันการยินยอมให้ผู้สมัครเข้าร่วมกิจกรรม
+                    </div>
+                </div>
+            </div>
+
+            <div class="agreement">
+                <style>
+                    .custom-checkbox {
+                        position: relative;
+                        padding-left: 30px;
+                        margin-bottom: 12px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        user-select: none;
+                        display: flex;
+                        align-items: flex-start;
+                    }
+
+                    .custom-checkbox input {
+                        position: absolute;
+                        opacity: 0;
+                        height: 0;
+                        width: 0;
+                    }
+
+                    .checkmark {
+                        position: absolute;
+                        top: 3px;
+                        left: 0;
+                        height: 20px;
+                        width: 20px;
+                        background-color: #fff;
+                        border: 2px solid var(--primary);
+                        border-radius: 4px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .custom-checkbox:hover input~.checkmark {
+                        background-color: #fff3f1;
+                        transform: scale(1.05);
+                        box-shadow: 0 2px 8px rgba(206, 26, 7, 0.15);
+                    }
+
+                    .custom-checkbox input:checked~.checkmark {
+                        background-color: var(--primary);
+                        animation: checkPop 0.4s ease-out;
+                    }
+
+                    .checkmark:after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                        left: 6px;
+                        top: 3px;
+                        width: 4px;
+                        height: 8px;
+                        border: solid white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+
+                    .custom-checkbox input:checked~.checkmark:after {
+                        display: block;
+                        animation: checkShow 0.2s ease-out;
+                    }
+
+                    @keyframes checkPop {
+                        50% {
+                            transform: scale(1.2);
+                        }
+
+                        100% {
+                            transform: scale(1);
+                        }
+                    }
+
+                    @keyframes checkShow {
+                        from {
+                            opacity: 0;
+                        }
+
+                        to {
+                            opacity: 1;
+                        }
+                    }
+
+                    .agreement-text {
+                        line-height: 1.6;
+                        color: var(--text-dark);
+                        font-weight: 500;
+                        -webkit-transition: color 0.3s ease;
+                        -moz-transition: color 0.3s ease;
+                        -o-transition: color 0.3s ease;
+                        transition: color 0.3s ease;
+                    }
+
+                    .custom-checkbox:hover .agreement-text {
+                        color: var(--primary);
+                    }
+
+                    .error-message-agreement {
+                        display: none;
+                        color: var(--error);
+                        font-weight: 600;
+                        margin-top: 10px;
+                        padding: 10px;
+                        border-radius: 4px;
+                        border-left: 4px solid var(--error);
+                        background: #fff3f1;
+                        -webkit-transition: all 0.3s ease-in-out;
+                        -moz-transition: all 0.3s ease-in-out;
+                        -o-transition: all 0.3s ease-in-out;
+                        transition: all 0.3s ease-in-out;
+                    }
+                </style>
+
+                <div class="form-group">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="agreement" name="agreement" required>
+                        <span class="checkmark"></span>
+                        <span class="agreement-text">
+                            ข้าพเจ้าขอรับรองว่าข้อความข้างต้นเป็นจริง
+                            และจะปฏิบัติตามกฎกติกาของการแข่งขันทุกประการจะไม่เรียกร้องค่าเสียหายใด ๆ ทั้งสิ้น
+                            หากเกิดอันตรายหรือบาดเจ็บแก่ตัวข้าพเจ้าก่อนหรือหลังการแข่งขัน
+                            และยินดีแสดงหลักฐานพิสูจน์อายุพร้อมทั้งยินยอมให้ฝ่ายจัดการแข่งขันถ่ายภาพหรือภาพยนตร์
+                            เพื่อบันทึกการแข่งขันและนําไปเผยแพร่
+                        </span>
+                    </label>
+                    <div class="error-message-agreement" id="agreement-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        กรุณายอมรับเงื่อนไขการสมัคร
+                    </div>
+                </div>
+            </div>
+
+            <h2>การจัดส่ง</h2>
+            <div class="form-group">
+                <label class="required">วิธีการรับเสื้อและเหรียญ</label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="pickupEvent" name="deliveryMethod" value="รับหน้างาน">
+                        <label class="radio-button" for="pickupEvent">
+                            <i style="margin-right: 6px;" class="fa-solid fa-hand-holding-hand"></i> รับในวัน PICK UP
+                        </label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="pickupDelivery" name="deliveryMethod" value="จัดส่งทางไปรษณีย์">
+                        <label class="radio-button" for="pickupDelivery">
+                            <i style="margin-right: 6px;" class="fas fa-shipping-fast"></i> จัดส่งทางไปรษณีย์ (+50 บาท)
+                        </label>
+                    </div>
+                </div>
+                <div class="error-message" id="deliveryMethod-error">กรุณาเลือกวิธีการรับสินค้า</div>
+                <div class="info-box" style="margin-top: 10px;">
+                    <p style="font-weight: 700;"><i class="fas fa-info-circle"></i> กรณีเลือกจัดส่งทางไปรษณีย์:</p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>มีค่าจัดส่งเพิ่ม 50 บาท</li>
+                        <li>จัดส่งแบบลงทะเบียนทางไปรษณีย์ไทย</li>
+                        <li>จัดส่งเหรียญและเสื้อตามแพ็กเกจที่เลือก</li>
+                        <li>ระยะเวลาจัดส่งภายใน 1-2 เดือนหลังจากวันจัดงานวิ่ง</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn-4" type="submit">
+                    <i class="fas fa-paper-plane"></i>&nbsp;
+                    ลงทะเบียน
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <style>
+        .pro-footer {
+            background-color: #8f0000;
+            color: #FFFFFF;
+            padding: 30px 0 25px;
+            line-height: 1.6;
+        }
+
+        .footer-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-header {
+            grid-column: 1 / -1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .footer-header h3 {
+            font-size: 1.4rem;
+            color: #FFFFFF;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .footer-header p {
+            color: #FFFFFF;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .footer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #FFFFFF;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 12px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(to right, #ff4a3c, #FFAB91);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .footer-section p {
+            margin: 3px 0;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #ECEFF1;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .contact-icon {
+            color: #FFAB91;
+            margin-right: 12px;
+            width: 16px;
+            margin-top: 3px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: #FFFFFF;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: #ff4a3c;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 25px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .footer-legal a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .footer-legal a:hover {
+            font-weight: 400;
+            transform: translateY(-2px);
+        }
+
+        @keyframes expandLine {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            font-weight: 400;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .map-section {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+        }
+
+        .map-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .map-info {
+            display: flex;
+            align-items: flex-start;
+            font-weight: 400;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .pro-footer {
+                padding: 40px 0 20px;
+            }
+
+            .footer-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .footer-legal {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .map-details {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+    <footer class="pro-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-header">
+                    <h3>YSP RUN WITH ME ครั้งที่ 3</h3>
+                    <p>โรงเรียนยโสธรพิทยาคม จังหวัดยโสธร</p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>เกี่ยวกับเรา</h4>
+                    <p>YSP RUN WITH ME ครั้งที่ 3 เป็นกิจกรรมวิ่งการกุศลชิงถ้วยพระราชทานทูลกระหม่อมหญิงอุบลรัตน์ราชกัญญา
+                        สิริวัฒนาพรรณวดี เพื่อส่งเสริมสุขภาพและสนับสนุนการต่อต้านยาเสพติดในสถานศึกษา</p>
+
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/YasothonPittayakom" class="social-link" target="_blank"
+                            rel="noopener">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/ysp.official" class="social-link" target="_blank"
+                            rel="noopener">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@yspchannel" class="social-link" target="_blank"
+                            rel="noopener">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://line.me/ti/p/@ysprun3" class="social-link" target="_blank" rel="noopener">
+                            <i class="fab fa-line"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>ช่องทางติดต่อ</h4>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <p>โรงเรียนยโสธรพิทยาคม<br>
+                                274 ถ.แจ้งสนิท ต.ในเมือง<br>
+                                อ.เมือง จ.ยโสธร 35000</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <p>โทร: 045-756-608</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <p>Email: ysp.tobe1@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h4>เวลาทำการ</h4>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <p>วันจันทร์ - ศุกร์<br>
+                                เวลา 08:30 - 16:30 น.</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div>
+                            <p>ฝ่ายประสานงาน: 098-XXX-XXXX</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-running"></i>
+                        </div>
+                        <div>
+                            <p>ฝ่ายจัดการแข่งขัน: 064-XXX-XXXX</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="map-section">
+                    <h4>สถานที่จัดงาน</h4>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1905.2580670895737!2d104.13876015813701!3d15.805305400000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3117cf23a81444ed%3A0xfc1d0fca25f65c1d!2z4LmC4Lij4LiH4LmA4Lij4Li14Lii4LiZ4Lii4LmC4Liq4LiY4Lij4Lie4Li04LiX4Lii4Liy4LiE4Lih!5e0!3m2!1sth!2sth!4v1711432848815!5m2!1sth!2sth"
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                    <div class="map-details">
+                        <div class="map-info">
+                            <div class="contact-icon">
+                                <i class="fas fa-directions"></i>
+                            </div>
+                            <div class="map-directions">
+                                <p>การเดินทาง: ห่างจากตัวเมืองยโสธร 2 กม. ติดถนนแจ้งสนิท
+                                    สามารถเดินทางโดยรถโดยสารประจำทางสาย
+                                    ยโสธร-อุบลราชธานี หรือรถสองแถวในเมือง</p>
+                            </div>
+                        </div>
+                        <div class="map-info">
+                            <div class="contact-icon">
+                                <i class="fas fa-parking"></i>
+                            </div>
+                            <div>
+                                <p>ที่จอดรถ: มีที่จอดรถสาธารณะบริเวณ ถนนแจ้งสนิท ฝั่งตรงข้ามโรงเรียน</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    © 2025 YSP RUN WITH ME The 3rd. All rights reserved. <span style="margin-left: 5px;">Developed by
+                        YANAKON S.</span>
+                </div>
+                <div class="footer-legal">
+                    <a href="#">นโยบายความเป็นส่วนตัว</a>
+                    <a href="#">เงื่อนไขการให้บริการ</a>
+                    <a href="#">ติดต่อเรา</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // โค้ด JavaScript สำหรับแบบฟอร์มรับสมัครวิ่ง
+        document.addEventListener('DOMContentLoaded', function () {
+            // เพิ่ม loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+            document.body.appendChild(loadingOverlay);
+
+            // เพิ่มกล่องสำหรับการแจ้งเตือน
+            const notificationSuccess = document.createElement('div');
+            notificationSuccess.className = 'notification success-message';
+            document.body.appendChild(notificationSuccess);
+
+            const notificationError = document.createElement('div');
+            notificationError.className = 'notification error-notification';
+            document.body.appendChild(notificationError);
+
+            // กำหนดค่าเริ่มต้น
+            initializeForm();
+
+            // ผูกกับฟอร์ม
+            const form = document.getElementById('runnerForm');
+            if (form) {
+                form.addEventListener('submit', handleFormSubmit);
+            }
+        });
+
+        // ฟังก์ชันสำหรับการกำหนดค่าเริ่มต้นของฟอร์ม
+        function initializeForm() {
+            // ซ่อนส่วนผู้ปกครองโดยค่าเริ่มต้น
+            const guardianSection = document.getElementById('guardianSection');
+            if (guardianSection) {
+                guardianSection.style.display = 'none';
+            }
+
+            // กำหนดวันที่ปัจจุบันเป็นวันที่สูงสุดสำหรับวันเกิด
+            const today = new Date();
+            const birthdateInput = document.getElementById('birthdate');
+            if (birthdateInput) {
+                birthdateInput.max = today.toISOString().split('T')[0];
+
+                // ผูกกับการเปลี่ยนแปลงวันเกิด
+                birthdateInput.addEventListener('change', calculateAge);
+            }
+
+            // ผูกกับการเปลี่ยนแปลงวิธีการชำระเงิน
+            const paymentCash = document.getElementById('paymentCash');
+            const paymentTransfer = document.getElementById('paymentTransfer');
+            if (paymentCash && paymentTransfer) {
+                paymentCash.addEventListener('change', togglePaymentProof);
+                paymentTransfer.addEventListener('change', togglePaymentProof);
+            }
+
+            // ผูกกับการเปลี่ยนแปลงประเภทและแพ็คเกจ
+            const packetOptions = document.querySelectorAll('input[name="packet"]');
+            const categoryOptions = document.querySelectorAll('input[name="category"]');
+
+            packetOptions.forEach(option => {
+                option.addEventListener('change', updatePackageOptions);
+            });
+
+            categoryOptions.forEach(option => {
+                option.addEventListener('change', updatePackageOptions);
+            });
+
+            // ผูกกับการเปลี่ยนแปลงหลักฐานการชำระเงิน
+            const paymentProof = document.getElementById('paymentProof');
+            if (paymentProof) {
+                paymentProof.addEventListener('change', previewPaymentSlip);
+            }
+
+            // ตรวจสอบสถานะของฟิลด์เมื่อมีการโฟกัสออก
+            const requiredInputs = document.querySelectorAll('input[required], select[required]');
+            requiredInputs.forEach(input => {
+                input.addEventListener('blur', function () {
+                    validateField(this);
+                });
+            });
+        }
+
+        // คำนวณอายุจากวันเกิด
+        function calculateAge() {
+            const birthdateInput = document.getElementById('birthdate');
+            const ageInput = document.getElementById('age');
+
+            if (birthdateInput && birthdateInput.value) {
+                const birthdate = new Date(birthdateInput.value);
+                const eventDate = new Date('2025-06-07'); // 2568 ในปฏิทินไทย = 2025
+
+                // คำนวณอายุ ณ วันที่จัดกิจกรรม
+                let age = eventDate.getFullYear() - birthdate.getFullYear();
+                const m = eventDate.getMonth() - birthdate.getMonth();
+                if (m < 0 || (m === 0 && eventDate.getDate() < birthdate.getDate())) {
+                    age--;
+                }
+
+                if (ageInput) {
+                    ageInput.value = age;
+                }
+
+                // แสดงส่วนผู้ปกครองหากอายุน้อยกว่า 18 ปี
+                toggleGuardianSection(age);
+
+                // เลือกรุ่นอายุตามอายุโดยอัตโนมัติ
+                selectAgeCategory(age);
+            }
+        }
+
+        // แสดงหรือซ่อนส่วนผู้ปกครอง
+        function toggleGuardianSection(age) {
+            const guardianSection = document.getElementById('guardianSection');
+            const guardianFields = ['guardianName', 'guardianRelation', 'guardianPhone'];
+
+            if (guardianSection) {
+                if (age < 18) {
+                    guardianSection.style.display = 'block';
+                    guardianFields.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (element) {
+                            element.setAttribute('required', true);
+                        }
+                    });
+                } else {
+                    guardianSection.style.display = 'none';
+                    guardianFields.forEach(field => {
+                        const element = document.getElementById(field);
+                        if (element) {
+                            element.removeAttribute('required');
+                        }
+                    });
+                }
+            }
+        }
+
+        // เลือกรุ่นอายุโดยอัตโนมัติ
+        function selectAgeCategory(age) {
+            const ageCategories = [
+                { id: 'genC', maxAge: 20 },
+                { id: 'genJ', maxAge: 30 },
+                { id: 'genVA', maxAge: 40 },
+                { id: 'genVB', maxAge: 50 },
+                { id: 'genVC', maxAge: 60 },
+                { id: 'genO', maxAge: 999 }  // สำหรับ 61 ปีขึ้นไป
+            ];
+
+            // ยกเลิกการเลือกทั้งหมด
+            ageCategories.forEach(category => {
+                const element = document.getElementById(category.id);
+                if (element) {
+                    element.checked = false;
+                }
+            });
+
+            // เลือกรุ่นที่เหมาะสม
+            for (const category of ageCategories) {
+                if (age <= category.maxAge) {
+                    const element = document.getElementById(category.id);
+                    if (element) {
+                        element.checked = true;
+                    }
+                    break;
+                }
+            }
+        }
+
+        // แสดงหรือซ่อนส่วนแนบหลักฐานการชำระเงิน
+        function togglePaymentProof() {
+            const paymentTransfer = document.getElementById('paymentTransfer');
+            const paymentProofSection = document.getElementById('paymentProofSection');
+            const paymentProofInput = document.getElementById('paymentProof');
+
+            if (paymentTransfer && paymentProofSection && paymentProofInput) {
+                if (paymentTransfer.checked) {
+                    paymentProofSection.classList.remove('hidden');
+                    paymentProofInput.setAttribute('required', true);
+                } else {
+                    paymentProofSection.classList.add('hidden');
+                    paymentProofInput.removeAttribute('required');
+                }
+            }
+        }
+
+        // แสดงตัวอย่างหลักฐานการชำระเงิน
+        function previewPaymentSlip(event) {
+            const preview = document.getElementById('slipPreview');
+            if (!preview) return;
+
+            const file = event.target.files[0];
+            if (file) {
+                // ตรวจสอบว่าเป็นไฟล์รูปภาพ
+                if (!file.type.match('image.*')) {
+                    showNotification('กรุณาอัปโหลดไฟล์รูปภาพเท่านั้น', false);
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+
+                // ตรวจสอบขนาดไฟล์ (ไม่เกิน 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('ขนาดไฟล์ต้องไม่เกิน 5MB', false);
+                    event.target.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+
+        // อัปเดตราคาแพ็คเกจตามการเลือก
+        function updatePackageOptions() {
+            const packetRegular = document.getElementById('packetRegular');
+            const packetVIP = document.getElementById('packetVIP');
+            const packetStudent = document.getElementById('packetStudent');
+            const typeFunRun = document.getElementById('typeFunRun');
+            const typeMiniMarathon = document.getElementById('typeMiniMarathon');
+            const selectedPackage = document.getElementById('selectedPackage');
+            const packageFee = document.getElementById('packageFee');
+
+            if (!packetRegular || !packetVIP || !packetStudent || !typeFunRun || !typeMiniMarathon || !selectedPackage || !packageFee) {
+                return;
+            }
+
+            // กำหนดราคาตามประเภทที่เลือก
+            if (packetRegular.checked) {
+                if (typeFunRun.checked) {
+                    // Package A - ทั่วไป 5 กม.
+                    selectedPackage.textContent = 'Package A - ทั่วไป 5 กม. ราคา 350 บาท';
+                    packageFee.value = '350';
+                } else if (typeMiniMarathon.checked) {
+                    // Package B - ทั่วไป 10 กม.
+                    selectedPackage.textContent = 'Package B - ทั่วไป 10 กม. ราคา 500 บาท';
+                    packageFee.value = '500';
+                }
+            } else if (packetVIP.checked) {
+                // Package C - VIP
+                selectedPackage.textContent = 'Package C - VIP ราคา 1,000 บาท';
+                packageFee.value = '1000';
+            } else if (packetStudent.checked) {
+                // Package Student
+                selectedPackage.textContent = 'Package Student - นักเรียน ราคา 200 บาท';
+                packageFee.value = '200';
+            }
+        }
+
+        // ตรวจสอบฟิลด์เดี่ยว
+        function validateField(field) {
+            let isValid = true;
+            const errorElement = document.getElementById(`${field.id}-error`);
+
+            if (!errorElement) return true;
+
+            // ซ่อนข้อความผิดพลาด
+            errorElement.style.display = 'none';
+
+            // ลบคลาสแสดงผลข้อผิดพลาด
+            field.classList.remove('highlight-error');
+
+            if (field.required) {
+                // ตรวจสอบประเภท input ต่าง ๆ
+                if (field.type === 'checkbox' && !field.checked) {
+                    isValid = false;
+                } else if (field.type !== 'checkbox' && !field.value.trim()) {
+                    isValid = false;
+                }
+            }
+
+            // การตรวจสอบรูปแบบพิเศษ
+            if (field.id === 'idCard' && field.value) {
+                if (!/^\d{13}$/.test(field.value)) {
+                    isValid = false;
+                }
+            } else if ((field.id === 'phone' || field.id === 'emergencyPhone' || field.id === 'guardianPhone') && field.value) {
+                if (!/^\d{10}$/.test(field.value)) {
+                    isValid = false;
+                }
+            } else if (field.id === 'zipcode' && field.value) {
+                if (!/^\d{5}$/.test(field.value)) {
+                    isValid = false;
+                }
+            }
+
+            // แสดงข้อความผิดพลาดหากไม่ถูกต้อง
+            if (!isValid) {
+                errorElement.style.display = 'block';
+                field.classList.add('highlight-error');
+            }
+
+            return isValid;
+        }
+
+        // ตรวจสอบฟอร์มทั้งหมด
+        function validateForm() {
+            let isValid = true;
+            const requiredFields = document.querySelectorAll('[required]');
+
+            // ตรวจสอบทุกฟิลด์ที่จำเป็น
+            requiredFields.forEach(field => {
+                if (field.type === 'radio') {
+                    // สำหรับปุ่มวิทยุ ตรวจสอบว่ามีตัวเลือกที่เลือกอยู่หรือไม่
+                    const groupName = field.name;
+                    const radioGroup = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+
+                    if (radioGroup.length === 0) {
+                        const errorElement = document.getElementById(`${groupName}-error`);
+                        if (errorElement) {
+                            errorElement.style.display = 'block';
+                        }
+                        isValid = false;
+                    }
+                } else {
+                    // สำหรับฟิลด์ประเภทอื่น ๆ
+                    if (!validateField(field)) {
+                        isValid = false;
+                    }
+                }
+            });
+
+            // ตรวจสอบว่าได้เลือกแพ็คเกจหรือไม่
+            const packageFee = document.getElementById('packageFee');
+            if (packageFee && !packageFee.value) {
+                const errorElement = document.getElementById('packageFee-error');
+                if (errorElement) {
+                    errorElement.style.display = 'block';
+                }
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // จัดการการส่งฟอร์ม
+        function handleFormSubmit(event) {
+            event.preventDefault();
+
+            if (validateForm()) {
+                // แสดง loading
+                const loadingOverlay = document.querySelector('.loading-overlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'flex';
+                }
+
+                // จำลองการส่งข้อมูล (ในระบบจริงจะเป็นการส่งไปยังเซิร์ฟเวอร์)
+                setTimeout(() => {
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                    }
+
+                    // แสดงข้อความสำเร็จ
+                    showNotification("ขอบคุณสำหรับการลงทะเบียน กรุณารอการติดต่อกลับจากทีมงาน", true);
+
+                    // ในระบบจริงอาจจะรีเซ็ตฟอร์ม
+                    // document.getElementById('runnerForm').reset();
+                }, 1500);
+            } else {
+                // เลื่อนไปยังข้อผิดพลาดแรก
+                const firstError = document.querySelector('.error-message[style="display: block"]');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        }
+
+        // แสดงข้อความแจ้งเตือน
+        function showNotification(message, isSuccess) {
+            const notification = document.querySelector(isSuccess ? '.success-message' : '.error-notification');
+            if (notification) {
+                notification.textContent = message;
+                notification.style.display = 'block';
+
+                // ซ่อนข้อความหลังจาก 5 วินาที
+                setTimeout(() => {
+                    notification.style.display = 'none';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+
+</html>
